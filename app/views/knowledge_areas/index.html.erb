@@ -1,0 +1,31 @@
+h1>Knowledge Areas</h1>
+<%= link_to "New Knowledge Area", new_knowledge_area_path %>
+<br><br>
+<table>
+    <thead>
+        <tr>
+            <th> Name </th>
+            <th> Description </th>
+            <th> </th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+         <% @knowledge_areas .each do |knowledge_area| %>
+        <tr>
+            <td><a href="/knowledge_areas/<%= knowledge_area.id %>"><%= knowledge_area.name %></a></td>
+            <td><%= knowledge_area.description %> </td>
+            <td><a href="/knowledge_areas/<%= knowledge_area.id %>/edit">Edit</a></td>
+            <td> <div data-controller="knowledge-areas">
+            <%= link_to "delete turbo", knowledge_area, data: { turbo_method: :delete, action:'click->knowledge-areas#showDeleteAlert' } %>
+            </div>
+            </td>
+        </tr>
+         <% end %>
+    </tbody>
+
+    <div data-controller="knowledge-areas">
+    <button data-action="click->knowledge-areas#showDeleteAlert">Show alert</button>
+    </div>
+
+</table>

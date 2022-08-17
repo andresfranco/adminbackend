@@ -1,0 +1,2 @@
+class KnowledgeArea < ApplicationRecord
+end

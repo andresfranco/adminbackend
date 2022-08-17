@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: postgres #Or a new user you set up inside pgadmin
+  password: picoromz2509
+  host: localhost
+  # For details on connection pooling, see Rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: portfolio_dev
+
+test:
+  <<: *default
+  database: portfolio_test
+
+
+production:
+  <<: *default
+  database: portfolio

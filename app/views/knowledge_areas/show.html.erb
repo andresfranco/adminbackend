@@ -1,0 +1,12 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @knowledge_area %>
+
+<div>
+  <%= link_to "Edit this knowledge area", edit_knowledge_area_path(@knowledge_area) %> |
+  <%= link_to "Back to knowledge areas", knowledge_areas_path %>
+
+  <%= button_to "Destroy this knowledge area", @knowledge_area, method: :delete %>
+  <%= link_to "delete turbo", @knowledge_area, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+
+</div>
