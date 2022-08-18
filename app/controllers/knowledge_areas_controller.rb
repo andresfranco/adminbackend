@@ -1,5 +1,6 @@
 class KnowledgeAreasController < ApplicationController
   before_action :set_knowledge_area, only: %i[ show edit update destroy ]
+  
 
   # GET /knowledge_areas or /knowledge_areas.json
   def index
