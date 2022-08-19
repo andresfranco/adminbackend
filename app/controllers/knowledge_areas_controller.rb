@@ -1,7 +1,8 @@
 class KnowledgeAreasController < ApplicationController
-  before_action :set_knowledge_area, only: %i[ show edit update destroy ]
+  before_action :set_knowledge_area, only: %i[ show edit update destroy delete_fetch]
+  skip_before_action :verify_authenticity_token, only:[:delete_fetch]
   
-
+  
   # GET /knowledge_areas or /knowledge_areas.json
   def index
     @knowledge_areas = KnowledgeArea.all
@@ -55,6 +56,13 @@ class KnowledgeAreasController < ApplicationController
     respond_to do |format|
       format.html { redirect_to knowledge_areas_url,status: :see_other ,notice: "Knowledge area was successfully destroyed." }
      
+    end
+  end
+
+  def delete_fetch
+    @knowledge_area.destroy
+    respond_to do |format|
+      format.html { redirect_to knowledge_areas_url,status: :see_other ,notice: "Knowledge area was successfully destroyed." }
     end
   end
 

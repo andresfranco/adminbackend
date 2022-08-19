@@ -13,7 +13,8 @@ export default class extends Controller {
       confirmButtonText :'Yes',
       reloadWindow:true
     }
-    customAlerts.confirmDeleteAlertRailsAjax(event,alertParams)
+    //customAlerts.confirmDeleteAlertRailsAjax(event,alertParams)
+    customAlerts.confirmDeleteAlertFetch(event, alertParams)
   }
   
 

@@ -8,7 +8,7 @@ export class RailsAjaxMethods{
             type:methodType,
             url:url ,
             error:function(response,statusText,xhr){
-                var errorMessage =getAjaxErrorMessage(xhr)
+                var errorMessage =getAjaxErrorMessage(xhr.status,xhr.statusText)
                 showErrorAlertMessage(errorMessage)
             }
           })
