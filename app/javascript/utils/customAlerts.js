@@ -50,6 +50,7 @@ export class CustomAlerts {
     confirmDeleteAlertFetch(event,alertParams){
         
         event.preventDefault()
+        const csrfToken = document.getElementsByName("csrf-token")[0].content;
         const deleteAlertValues = this.setDeleteAlertValues(event)
         const taskURL =deleteAlertValues.taskURL.replace("knowledge_areas/","knowledge_areas/delete_fetch/")
         this.setDeleteAlertValues(event)
@@ -62,7 +63,8 @@ export class CustomAlerts {
             return fetch(taskURL ,{
                 method:deleteAlertValues.methodType,
                 headers: {
-                    'Content-Type': deleteAlertValues.contentType
+                  'X-CSRF-Token': csrfToken,
+                  'Content-Type': deleteAlertValues.contentType
                   }
             })
             .then(response => {

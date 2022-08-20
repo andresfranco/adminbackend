@@ -1,6 +1,6 @@
 class KnowledgeAreasController < ApplicationController
   before_action :set_knowledge_area, only: %i[ show edit update destroy delete_fetch]
-  skip_before_action :verify_authenticity_token, only:[:delete_fetch]
+  # skip_before_action :verify_authenticity_token, only:[:delete_fetch]
   
   
   # GET /knowledge_areas or /knowledge_areas.json
