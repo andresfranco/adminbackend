@@ -4,10 +4,23 @@ import {getAjaxErrorMessage} from "../utils/errorHandler"
 
 export class CustomAlerts {
 
-  getAlertMessage(status,statusText,alertTitle,alertType,errorMessage,hasTimer,time,refreshWindow,refresWindowTime){
-    if(alertType ==='error') errorMessage = errorMessage+': '+getAjaxErrorMessage(status,statusText)
-    hasTimer ?setTimeout(function(){Swal.fire(alertTitle,errorMessage,alertType)}, time):Swal.fire(alertTitle,errorMessage,alertType)
-    if(refreshWindow) this.refreshScreenTimer(refresWindowTime,refreshWindow)
+     getAlertMessage(alertType,alertParams){
+    
+    if(alertType ==='error') {
+      var errorMessage = alertParams.errorMessage+': '+ getAjaxErrorMessage(alertParams.errorStatusCode,alertParams.errorStatusText)
+      alertParams.errorAlertTimer ?alertParams.errorAlertTime:alertParams.errorAlertTime=0
+      setTimeout(function(){Swal.fire(alertParams.errorTitle,errorMessage,alertParams.errorAlertType)},alertParams.errorAlertTime)
+      if(alertParams.errorAlertRefreshWindow) this.refreshScreenTimer(alertParams.errorAlertRefreshWindowTime,alertParams.errorAlertRefreshWindow)
+        
+    }
+    if (alertType ==='success'){
+      alertParams.sucessAlertTimer ?alertParams.successAlertTime:alertParams.successAlertTime=0
+      setTimeout(function(){Swal.fire(alertParams.successTitle,alertParams.successMessage,alertParams.successAlertType)},alertParams.successAlertTime)
+      if(alertParams.successAlertRefreshWindow) this.refreshScreenTimer(alertParams.successAlertRefreshWindowTime,alertParams.successAlertRefreshWindow)
+    }
+    
+   
+   
   }
 
   refreshScreenTimer(time,refreshWindow){
@@ -65,15 +78,13 @@ export class CustomAlerts {
            type:deleteAlertValues.methodType,
            url:deleteAlertValues.taskURL,
            success:()=>{
-             _this.getAlertMessage(alertParams.successStatusCode,alertParams.successStatusText
-                  ,alertParams.successTitle,alertParams.successAlertType
-                  ,alertParams.successMessage,alertParams.sucessAlertTimer,alertParams.successAlertTime
-                  ,alertParams.successAlertRefreshWindow,alertParams.successAlertRefreshWindowTime)
+              _this.getAlertMessage('success',alertParams)
            },
            error:(response,statusText,xhr)=>{ 
-            _this.getAlertMessage(xhr.status,xhr.statusText,alertParams.errorTitle
-                 ,alertParams.errorAlertType,alertParams.errorMessage,alertParams.errorAlertTimer
-                 ,alertParams.errorAlertTime,alertParams.errorAlertRefreshWindow,alertParams.errorAlertRefreshWindowTime)
+              alertParams.errorStatusCode = xhr.status
+              alertParams.errorStatusText = xhr.statusText
+              _this.getAlertMessage('error',alertParams)
+
            }
         })
         
@@ -101,20 +112,17 @@ export class CustomAlerts {
                   }
               })
               .then(response => {
-                  response.ok ? this.getAlertMessage(alertParams.successStatusCode,alertParams.successStatusText
-                    ,alertParams.successTitle,alertParams.successAlertType
-                    ,alertParams.successMessage,alertParams.sucessAlertTimer,alertParams.successAlertTime
-                    ,alertParams.successAlertRefreshWindow,alertParams.successAlertRefreshWindowTime)
-                  :this.getAlertMessage(response.status,response.statusText,alertParams.errorTitle
-                    ,alertParams.errorAlertType,alertParams.errorMessage,alertParams.errorAlertTimer
-                    ,alertParams.errorAlertTime,alertParams.errorAlertRefreshWindow,alertParams.errorAlertRefreshWindowTime)
+                  response.ok? this.getAlertMessage('success',alertParams) 
+                               :(alertParams.errorStatusCode = response.status
+                                ,alertParams.errorStatusText = response.statusText
+                                ,this.getAlertMessage('error',alertParams))
               })
               .catch(error => {
-                this.getAlertMessage('',error,alertParams.errorTitle
-                ,alertParams.errorAlertType,alertParams.errorMessage,alertParams.errorAlertTimer
-                ,alertParams.errorAlertTime,alertParams.errorAlertRefreshWindow,alertParams.errorAlertRefreshWindowTime)
-              })
-           
+                  alertParams.errorStatusCode =''
+                  alertParams.errorStatusText = error 
+                  this.getAlertMessage('error',alertParams) 
+               
+              })  
           }
         })
      }
